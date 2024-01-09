@@ -1,4 +1,4 @@
-module github.com/spirefy/go-codegen
+module github.com/spirefy/go-codegend
 
 go 1.21.0
 

@@ -10,8 +10,6 @@ import (
 //
 // This is an internal function that returns the plugineigne's t.Plugin object to register this plugin along with
 // extension points and extensions if any
-//
-//export pluginInit
 func register() *t.Plugin {
 	// This extension point expects a Menu type to be provided by an extension.
 	// It will call each extension once to obtain the name, parent name and onclick func name to call
@@ -24,10 +22,10 @@ func register() *t.Plugin {
 	}
 
 	ret := &t.Plugin{
-		Id:              "spirefy.plugins.loaders.OpenAPI",
-		Name:            "OpenAPI",
+		Id:              "spirefy.codegen",
+		Name:            "Spirefy Codegen",
 		Version:         "1.0.0",
-		Description:     "A plugin that provides a source loader for OpenAPI descriptions",
+		Description:     "A plugin that provides code generation capabilities with additional extension points for other plugins to contribute to",
 		ExtensionPoints: []t.ExtensionPoint{ep},
 	}
 

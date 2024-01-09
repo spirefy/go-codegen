@@ -29,8 +29,6 @@ const (
 	FOLDER ResourceType = 1024
 )
 
-var resourceAutoId autoInc
-
 type Resource struct {
 	// This is a unique id assigned at creation time. Can be used for reference if need be.
 	Id int `json:"id"`
@@ -315,7 +313,7 @@ func (r *Resources) NewResource(path, method, name, description, summary, source
 		}
 
 		resource = &Resource{
-			Id:           resourceAutoId.ID(),
+			Id:           generateUniqueInt(),
 			Path:         path,
 			Method:       method,
 			ResourceId:   r.MakeUniqueId(path, method),

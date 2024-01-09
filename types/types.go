@@ -1,23 +1,17 @@
 package types
 
 import (
+	"math/rand"
 	"strings"
-	"sync"
+	"time"
 	"unicode"
 )
 
-type autoInc struct {
-	sync.Mutex // ensures autoInc is goroutine-safe
-	id         int
-}
-
-func (a *autoInc) ID() (id int) {
-	a.Lock()
-	defer a.Unlock()
-
-	id = a.id
-	a.id++
-	return
+func generateUniqueInt() int {
+	now := time.Now().UnixNano()
+	r := rand.New(rand.NewSource(now))
+	randomPart := r.Int()
+	return int(now) + randomPart
 }
 
 func ToCamelCase(str string, initCase bool) string {

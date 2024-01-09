@@ -60,7 +60,7 @@ func NewProperty(name, rawName, typ, description, format, version string, requir
 	// if the type of property is an object, lets look up the ref
 
 	property := &Property{
-		Id:          componentAutoId.ID(), // use here as well as Component to keep ids unique even across properties and components.
+		Id:          generateUniqueInt(), // use here as well as Component to keep ids unique even across properties and components.
 		Name:        name,
 		Type:        typ,
 		Description: description,

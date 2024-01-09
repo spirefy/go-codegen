@@ -45,9 +45,6 @@ type Component struct {
 	Properties  Properties      // if this component has any associated properties, this contains the slice of those properties
 }
 
-// global component auto inc ID variable
-var componentAutoId autoInc
-
 // Len
 // Part of the sorting interface implementation for custom sorting Components
 func (c Components) Len() int {
@@ -216,7 +213,7 @@ func (c *Components) NewComponent(name, rawName, typ, description, format, versi
 		err = fmt.Errorf(" component must have a name ")
 	} else {
 		component = &Component{
-			Id:          componentAutoId.ID(),
+			Id:          generateUniqueInt(),
 			Name:        name,
 			RawName:     rawName,
 			Type:        typ,

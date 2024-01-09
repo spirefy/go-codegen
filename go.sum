@@ -1,0 +1,4 @@
+github.com/extism/go-pdk v1.0.0 h1:/VlFLDnpYfooMl+VW94VHrbdruDyKkpa47yYJ7YcCAE=
+github.com/extism/go-pdk v1.0.0/go.mod h1:Gz+LIU/YCKnKXhgge8yo5Yu1F/lbv7KtKFkiCSzW/P4=
+github.com/spirefy/go-plugin-engine v0.0.1 h1:Ru4Mm5b/nJ6TqZIFqQ/QZTwO3Wyohi6DWQOZGDUlF2M=
+github.com/spirefy/go-plugin-engine v0.0.1/go.mod h1:vMfABd7EaVL6SqOaY78LEU0OlAbHfaV87aEXXEFN8WE=

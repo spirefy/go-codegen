@@ -2,12 +2,10 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/extism/go-pdk"
 	t "github.com/spirefy/go-plugin-engine/types"
 )
-
-//export sendevent
-func sendevent(event string, data []byte) int32
 
 //export register
 func register() int32 {
@@ -35,6 +33,28 @@ func register() int32 {
 		pdk.Output(o)
 	}
 
+	return 0
+}
+
+func generate() {
+	pdk.Log(pdk.LogDebug, "Generating code")
+}
+
+//export handleEvent
+func handleEvent() int32 {
+	input := pdk.Input()
+	evt := t.Event{}
+	err := json.Unmarshal(input, &evt)
+
+	if nil != err {
+		pdk.SetError(errors.New("problem unmarshalling the event"))
+		return 1
+	}
+
+	switch evt.Id {
+	case "generate":
+		break
+	}
 	return 0
 }
 

@@ -1,1 +1,1 @@
-tinygo build -o ../plugins/codegen.wasm -target wasi  codegen.go
+tinygo build -scheduler=none -o ../plugins/codegen.wasm -target wasi codegen.go

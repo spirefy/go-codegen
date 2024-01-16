@@ -2,23 +2,30 @@ package plugins
 
 import (
 	"encoding/json"
-	"fmt"
+	"github.com/extism/go-pdk"
+	ct "github.com/spirefy/cli/plugin"
 	"github.com/spirefy/go-pdk/types"
 )
 
-type CommandLineSchema struct {
-	Name            string `json:"name"`
-	ValueType       string `json:"valueType"`
-	MultipleAllowed bool   `json:"multipleAllowed"`
-}
-
 func GetExtensions() []types.Extension {
-	sourceCommandLine := CommandLineSchema{
-		Name:            "source",
-		ValueType:       "string",
-		MultipleAllowed: true,
+	sourceCommandLine := ct.Option{
+		Name:        "Source",
+		Description: "This option adds a source option. It allows for comma separated file or url path names to where source files can be located",
+		Option:      "source",
+		Type:        "stringOrUrl",
+		Default:     ".",
 	}
-	t, _ := json.Marshal(sourceCommandLine)
+
+	targetCommandLine := ct.Option{
+		Name:        "Target",
+		Description: "This option adds a target option. It allows for comma separated list of",
+		Option:      "target",
+		Type:        "stringOrUrl",
+		Default:     ".",
+	}
+
+	options := ct.Options{sourceCommandLine, targetCommandLine}
+	t, _ := json.Marshal(options)
 
 	e := types.Extension{
 		ExtensionPoint: "spirefy.cli.commandline",
@@ -34,7 +41,6 @@ func GetExtensions() []types.Extension {
 
 //export sourceLoad
 func handleSourceLoad() int32 {
-	fmt.Println("Handling a LOAD event")
-
+	pdk.Log(pdk.LogDebug, "Got Source Load")
 	return 0
 }

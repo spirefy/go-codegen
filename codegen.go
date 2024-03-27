@@ -8,25 +8,12 @@ import (
 	t "github.com/spirefy/go-pdk/types"
 )
 
-//export register
-func register() int32 {
-	p := &t.Plugin{
-		Id:              "spirefy.codegen",
-		Name:            "Spirefy Codegen",
-		Version:         "1.0.0",
-		Description:     "A plugin that provides code generation capabilities with additional extension points for other plugins to contribute to",
-		ExtensionPoints: plugins.GetCodegenExtensionPoints(),
-		Extensions:      plugins.GetExtensions(),
-	}
+//export start
+func start() int32 {
+	pdk.Log(pdk.LogDebug, "STARTING THE CODEGEN PLUGIN")
 
-	o, e := json.Marshal(p)
-	if nil != e {
-		return 1
-	} else {
-		pdk.Output(o)
-	}
+	hostfuncs.RegisterPlugin("spirefy.codegen", "Spirefy Codegen", "1.0.0", "1.0.0", "A plugin that provides code generation capabilities with additional extension points for other plugins to contribute to", plugins.GetCodegenExtensionPoints(), plugins.GetExtensions())
 
-	hostfuncs.CallExtension([]byte{})
 	return 0
 }
 

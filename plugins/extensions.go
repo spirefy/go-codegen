@@ -27,16 +27,16 @@ func GetExtensions() []types.Extension {
 	options := ct.Options{sourceCommandLine, targetCommandLine}
 	t, _ := json.Marshal(options)
 
-	e := types.Extension{
-		ExtensionPoint: "spirefy.cli.commandline",
-		Description:    "Adds a SORUCE option to the cli command line",
-		Name:           "SourceOption",
-		Func:           "sourceLoad",
-		MetaData:       t,
-		Event:          "",
-	}
+	e := types.CreateExtension(
+		"spirefy.cli.commandLineExtension",
+		"SourceOption",
+		"spirefy.cli.commandline",
+		"Adds a SORUCE option to the cli command line",
+		"sourceLoad",
+		t,
+		nil)
 
-	return []types.Extension{e}
+	return []types.Extension{*e}
 }
 
 //export sourceLoad

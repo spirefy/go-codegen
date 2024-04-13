@@ -9,48 +9,42 @@ import (
 	"github.com/spirefy/go-pdk/types"
 )
 
+// GetExtensions
+//
+// The CLI ExtensionPoint 'spirefy.cli.commandline' requires an extension to provide one or more cli/plugin/Option
+// objects to indicate each command line parameter and type of the value. This call returns the list of options for
+// the CLI ExtensionPoint and when the function is called will be able to load all sources first, then iterate on all
+// generator provided plugins each getting the complete in memory structure built up by all the sources.
 func GetExtensions() []types.Extension {
-	sourceCommandLine := ct.Option{
+	sourceCommandLine := &ct.Option{
 		Name:        "Source",
 		Description: "This option adds a source option. It allows for comma separated file or url path names to where source files can be located",
 		Option:      "source",
 		Type:        "stringOrUrl",
-		Default:     ".",
+		Default:     "",
 	}
 
-	targetCommandLine := ct.Option{
+	targetCommandLine := &ct.Option{
 		Name:        "Target",
-		Description: "This option adds a target option. It allows for comma separated list of",
+		Description: "This option adds a target option. It allows for comma separated list of generator names provided by generator plugins to specify which plugins to use to generate code with",
 		Option:      "target",
 		Type:        "stringOrUrl",
-		Default:     ".",
+		Default:     "",
 	}
 
-	options := ct.Options{sourceCommandLine}
+	options := ct.Options{sourceCommandLine, targetCommandLine}
 	t, _ := json.Marshal(options)
 
 	loaderExtension := types.CreateExtension(
-		"spirefy.cli.commandLineExtension",
-		"SourceOption",
+		"spirefy.cli.commandLineExtensionForCodegen",
+		"Codegen Source and Target Options",
 		"spirefy.cli.commandline",
-		"Adds a SORUCE option to the cli command line",
-		"load",
+		"Adds source and target options to the cli command line",
+		"loadAndGenerate",
 		t,
 		nil)
 
-	options2 := ct.Options{targetCommandLine}
-	t2, _ := json.Marshal(options2)
-
-	generatorExtension := types.CreateExtension(
-		"spirefy.cli.commandLineExtension",
-		"GeneratorOption",
-		"spirefy.cli.commandline",
-		"Adds a TARGET option to the cli command line",
-		"generate",
-		t2,
-		nil)
-
-	return []types.Extension{*loaderExtension, *generatorExtension}
+	return []types.Extension{*loaderExtension}
 }
 
 type source struct {
@@ -72,33 +66,35 @@ func processSource(src source) sourceRet {
 		Workflows:  make(codegenTypes.Workflows, 0),
 	}
 
-	fmt.Println("Loading srouce: ", src)
+	fmt.Println("Loading source: ", src)
 	return ret
 }
 
-//export load
-func handleSourceLoad() int32 {
+type inputOptions struct {
+	Name  string
+	Value string
+}
+
+//export loadAndGenerate
+func loadAndGenerate() int32 {
 	input := pdk.Input()
 
-	s := source{}
+	s := make([]inputOptions, 0)
 
 	err := json.Unmarshal(input, &s)
 	if nil != err {
 		pdk.Log(pdk.LogDebug, "Error with unmarshal of input: %s"+err.Error())
 		return 1
 	}
-
-	srcRet := processSource(s)
-	var output []byte
-	output, err = json.Marshal(srcRet)
-	pdk.Output(output)
-
+	for _, o := range s {
+		pdk.Log(pdk.LogDebug, "IN LOAD AND GENERATE OPTION AND VALUE: "+o.Name+":"+o.Value)
+	}
+	/*
+		srcRet := processSource(s)
+		var output []byte
+		output, err = json.Marshal(srcRet)
+		pdk.Output(output)
+	*/
 	pdk.Log(pdk.LogDebug, "Got Source Load done")
-	return 0
-}
-
-//export generate
-func generate() int32 {
-	pdk.Log(pdk.LogDebug, "Generating code")
 	return 0
 }

@@ -86,9 +86,7 @@ func loadAndGenerate() int32 {
 		pdk.Log(pdk.LogDebug, "Error with unmarshal of input: %s"+err.Error())
 		return 1
 	}
-	for _, o := range s {
-		pdk.Log(pdk.LogDebug, "IN LOAD AND GENERATE OPTION AND VALUE: "+o.Name+":"+o.Value)
-	}
+
 	/*
 		srcRet := processSource(s)
 		var output []byte

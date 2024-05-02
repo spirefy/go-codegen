@@ -1,0 +1,30 @@
+id: spirefy.plugins.codegen
+name: Spirefy Code Generation Plugin
+version: 1.2.3
+description: This is a sample plugin that demonstrates the use of extension points and extensions.
+loadOnStart: true
+extension_points:
+  - id: spirefy.plugins.codegen.generators
+    name: Generator Extension Point
+    description: This is where extensions contribute their generators to
+    version: "1.0.0"
+  - id: spirefy.plugins.codegen.loaders
+    name: Source Loader/Parser Extension Point
+    description: This is where extensions contribute their source loaders/parsers to
+    version: "1.0.0"
+extensions:
+  - id: spirefy.plugins.codegen.extensions.cli
+    name: Host CLI Extension For Plugin
+    extensionPoint: spirefy.cli.commandline
+    description: This extension attaches to the spirefy.host.cli extension point to add its options to the CLI
+    func: loadAndGenerate
+    metadata:
+      options:
+        - Name: Source CLI Option
+          Description: The comma separated list of sources to process in to resources, components and workflows
+          Option: sources
+          Type: string
+        - Name: Target CLI Option
+          Description: The comma separated list of targets to generate for
+          Option: targets
+          Type: string

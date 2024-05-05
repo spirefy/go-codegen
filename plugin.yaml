@@ -3,7 +3,7 @@ name: Spirefy Code Generation Plugin
 version: 1.2.3
 description: This is a sample plugin that demonstrates the use of extension points and extensions.
 loadOnStart: true
-extension_points:
+extensionPoints:
   - id: spirefy.plugins.codegen.generators
     name: Generator Extension Point
     description: This is where extensions contribute their generators to
